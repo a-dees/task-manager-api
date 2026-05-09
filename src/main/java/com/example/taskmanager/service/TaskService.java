@@ -30,7 +30,7 @@ public class TaskService {
         .orElseThrow(() -> new RuntimeException("Task not found"));
 
         existingTask.setTitle(updatedTask.getTitle());
-        existingTask.setCompleted(updatedTask.isCompleted())
+        existingTask.setCompleted(updatedTask.isCompleted());
 
         return taskRepository.save(existingTask);
     }
