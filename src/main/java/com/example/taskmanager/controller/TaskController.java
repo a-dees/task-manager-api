@@ -1,4 +1,6 @@
 package com.example.taskmanager.controller;
+import com.example.taskmanager.dto.TaskRequestDTO;
+import com.example.taskmanager.dto.TaskResponseDTO;
 import com.example.taskmanager.entity.Task;
 import com.example.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
@@ -20,13 +22,15 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> getTasks() {
+    public List<TaskResponseDTO> getTasks() {
         return taskService.getAllTasks();
     }
 
     @PostMapping
-    public Task createTask(@Valid @RequestBody Task task) {
-        return taskService.createTask(task);
+    public TaskResponseDTO createTask(
+            @Valid @RequestBody TaskRequestDTO taskDTO) {
+
+        return taskService.createTask(taskDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -35,10 +39,11 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable Long id,
-                           @RequestBody Task updatedTask) {
+    public TaskResponseDTO updateTask(
+            @PathVariable Long id,
+            @Valid @RequestBody TaskRequestDTO updatedTaskDTO) {
 
-        return taskService.updateTask(id, updatedTask);
+        return taskService.updateTask(id, updatedTaskDTO);
 
     }
 }
