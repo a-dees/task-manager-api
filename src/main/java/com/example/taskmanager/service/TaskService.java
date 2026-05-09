@@ -2,6 +2,7 @@ package com.example.taskmanager.service;
 import com.example.taskmanager.dto.TaskRequestDTO;
 import com.example.taskmanager.dto.TaskResponseDTO;
 import com.example.taskmanager.entity.Task;
+import com.example.taskmanager.exception.TaskNotFoundException;
 import com.example.taskmanager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,19 @@ public class TaskService {
                         task.isCompleted()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    //GET BY ID
+    public TaskResponseDTO getTaskById(Long id) {
+
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException("Task not found"));
+
+        return new TaskResponseDTO(
+                task.getId(),
+                task.getTitle(),
+                task.isCompleted()
+        );
     }
 
     //CREATE
@@ -51,7 +65,7 @@ public class TaskService {
     public TaskResponseDTO updateTask(Long id, TaskRequestDTO updatedTaskDTO) {
 
         Task existingTask = taskRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new TaskNotFoundException("Task not found"));
 
         existingTask.setTitle(updatedTaskDTO.getTitle());
         existingTask.setCompleted(updatedTaskDTO.isCompleted());

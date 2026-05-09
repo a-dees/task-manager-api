@@ -21,9 +21,9 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping
-    public List<TaskResponseDTO> getTasks() {
-        return taskService.getAllTasks();
+    @GetMapping("/{id}")
+    public TaskResponseDTO getTaskById(@PathVariable Long id) {
+        return taskService.getTaskById(id);
     }
 
     @PostMapping
