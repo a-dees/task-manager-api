@@ -32,4 +32,12 @@ public class TaskController {
     public void deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
     }
+
+    @PutMapping
+    public Task updateTask(@PathVariable Long id,
+                           @RequestBody Task updatedTask) {
+
+        return taskService.updateTask(id, updatedTask);
+
+    }
 }
